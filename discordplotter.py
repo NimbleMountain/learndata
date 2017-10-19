@@ -6,30 +6,48 @@ from dateutil import parser
     
 style.use('fivethirtyeight')
 
+
 with sqlite3.connect("discord0.db") as conn:
 
     c = conn.cursor()
 
 def create_table():
-    c.execute('''CREATE TABLE IF NOT EXISTS plotthis(unix REAL, datestamp TEXT, discordpop INTEGER)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS plotthis(unix REAL, datestamp TEXT, usersjoined INTEGER, discordpop INTEGER)''')
+    unix = int(time.time())
+    datestamp = str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))
+    usersjoined = random.randint(-1,3)
+    discordpop = 0
+    if discordpop <= 1:
+        dicordpop =0
+        
+    c.execute("INSERT INTO plotthis(unix, datestamp, usersjoined, discordpop) VALUES (?, ?, ?, ?)",
+          (unix, datestamp, usersjoined, discordpop))   
     
 
 def dynamic_data_entry():
-      
+    
+    c.execute('SELECT * FROM plotthis ORDER BY discordpop DESC LIMIT 1;')
+    oldpop = c.fetchall()
+    oldpopprinter = oldpop[0][-1]
+    print(oldpopprinter)
+    
     unix = int(time.time())
     datestamp = str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))
-    discordpop = random.randint(-1,3)
+    usersjoined = random.randint(-1,3)
+    discordpop = oldpop[0][-1] + usersjoined
     
-    c.execute("INSERT INTO plotthis(unix, datestamp, discordpop) VALUES (?, ?, ?)",
-          (unix, datestamp, discordpop))
+    c.execute("INSERT INTO plotthis(unix, datestamp, usersjoined, discordpop) VALUES (?, ?, ?, ?)",
+          (unix, datestamp, usersjoined, discordpop))
 
     conn.commit()
 
 def read_from_db():
-    c.execute('SELECT * FROM plotthis')
+    c.execute('SELECT discordpop FROM plotthis')
     data = c.fetchall()
-    for row in data:
-        print(row)
+    #print(data)
+    #for row in data:
+    #    print(row)        
+
 
 def graph_data():
     c.execute('SELECT datestamp, discordpop FROM plotthis')
@@ -41,7 +59,7 @@ def graph_data():
     for row in data:
         dates.append(parser.parse(row[0]))
         values.append(row[1])
-
+        
     plt.plot_date(dates,values,'-')
     plt.show()
     
