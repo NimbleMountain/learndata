@@ -6,7 +6,7 @@ from dateutil import parser
     
 style.use('fivethirtyeight')
 
-with sqlite3.connect("discord1.db") as conn:
+with sqlite3.connect("discord0.db") as conn:
 
     c = conn.cursor()
 
