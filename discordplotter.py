@@ -13,6 +13,10 @@ with sqlite3.connect("discord0.db") as conn:
 
 def create_table():
     c.execute('''CREATE TABLE IF NOT EXISTS plotthis(unix REAL, datestamp TEXT, usersjoined INTEGER, discordpop INTEGER)''')
+    c.execute('SELECT * FROM plotthis ORDER BY discordpop DESC LIMIT 1;')
+    oldpop = c.fetchall()
+    if len(oldpop) and len(oldpop[0]):
+        return
     unix = int(time.time())
     datestamp = str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))
     usersjoined = random.randint(-1,3)
