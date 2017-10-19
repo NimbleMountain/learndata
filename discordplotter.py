@@ -35,7 +35,7 @@ def dynamic_data_entry():
 
     unix = int(time.time())
     datestamp = str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))
-    usersjoined = random.randint(-1,3)
+    usersjoined = random.randint(-4,5)
     discordpop = oldpop[0][-1] + usersjoined
     
     c.execute("INSERT INTO plotthis(unix, datestamp, usersjoined, discordpop) VALUES (?, ?, ?, ?)",
