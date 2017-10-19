@@ -18,7 +18,7 @@ def create_table():
     usersjoined = random.randint(-1,3)
     discordpop = 0
     if discordpop <= 1:
-        dicordpop =0
+        dicordpop = 0
         
     c.execute("INSERT INTO plotthis(unix, datestamp, usersjoined, discordpop) VALUES (?, ?, ?, ?)",
           (unix, datestamp, usersjoined, discordpop))   
@@ -28,9 +28,7 @@ def dynamic_data_entry():
     
     c.execute('SELECT * FROM plotthis ORDER BY discordpop DESC LIMIT 1;')
     oldpop = c.fetchall()
-    oldpopprinter = oldpop[0][-1]
-    print(oldpopprinter)
-    
+
     unix = int(time.time())
     datestamp = str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))
     usersjoined = random.randint(-1,3)
@@ -44,9 +42,6 @@ def dynamic_data_entry():
 def read_from_db():
     c.execute('SELECT discordpop FROM plotthis')
     data = c.fetchall()
-    #print(data)
-    #for row in data:
-    #    print(row)        
 
 
 def graph_data():
