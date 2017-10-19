@@ -1,14 +1,12 @@
-import sqlite3
-import time
-import datetime
-import random
-import matplotlib.pyplot as plt
+import sqlite3, time, datetime, random
+import matplotlib.pyplot as plt 
 import matplotlib.dates as mdates
 from matplotlib import style
 from dateutil import parser
+    
 style.use('fivethirtyeight')
 
-with sqlite3.connect("discord0.db") as conn:
+with sqlite3.connect("discord1.db") as conn:
 
     c = conn.cursor()
 
@@ -47,9 +45,10 @@ def graph_data():
     plt.plot_date(dates,values,'-')
     plt.show()
     
-graph_data()
-
+    
 create_table()
+
+graph_data()
 
 read_from_db()
 
