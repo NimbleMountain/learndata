@@ -65,9 +65,6 @@ def graph_data():
     plt.show()
 
 
-create_table()
-
-
 def timer():
     start = time.time()
     time.clock()
@@ -85,46 +82,31 @@ def get_number():
         return get_number()
     return var
 
+create_table()
 
 user_input = get_number()
-elapsed_time = 0
-j = 0
-intervals = 0
-record = []
+current_second = 0
+do_data = 0
+ending_seconds = user_input*60
 
 while True:
-    sleep_secs = random.uniform(3, 12)
-    elapsed_time += sleep_secs
-
-    if j == 0:
-        print('Simulation is running. \nIt will run for about ' + str(user_input) +  ' minute.\n')
-        j = 1
-
-    time.sleep(sleep_secs)
-    dynamic_data_entry()
-
-    intervals = (math.floor(elapsed_time) - math.floor(elapsed_time)%30)
-    record.append(intervals)
-    print(record)
-
-
-    intervals += 1
-
-    if elapsed_time >= user_input*60:
+    if not current_second % 30:
+        if not ending_seconds - current_second == 0:
+            print("Working... {} seconds remaining".format(ending_seconds-current_second))
+    if do_data >= current_second:
+        dynamic_data_entry()
+        do_data = current_second + random.randint(1, 30)
+    if current_second >= ending_seconds:
         break
+    time.sleep(1)
+    current_second += 1
 
-
-
-
-
-
+print("Complete")
 
 
 read_from_db()
-
 graph_data()
-
 c.close
 conn.close()
 
-print("Complete")
+
